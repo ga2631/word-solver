@@ -1,0 +1,723 @@
+{
+  "total_unique_lengths": 29,
+  "total_words": 370100,
+  "lengths_available": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    27,
+    28,
+    29,
+    31
+  ],
+  "distribution": {
+    "1": 26,
+    "2": 427,
+    "3": 2130,
+    "4": 7185,
+    "5": 15918,
+    "6": 29874,
+    "7": 41997,
+    "8": 51626,
+    "9": 53403,
+    "10": 45872,
+    "11": 37539,
+    "12": 29124,
+    "13": 20944,
+    "14": 14148,
+    "15": 8847,
+    "16": 5182,
+    "17": 2968,
+    "18": 1470,
+    "19": 760,
+    "20": 359,
+    "21": 168,
+    "22": 74,
+    "23": 31,
+    "24": 12,
+    "25": 8,
+    "27": 3,
+    "28": 2,
+    "29": 2,
+    "31": 1
+  },
+  "details": {
+    "1": {
+      "length": 1,
+      "word_count": 26,
+      "sample_words": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_1.json",
+          "size_kb": 0.18
+        },
+        {
+          "format": "txt",
+          "filename": "words_1.txt",
+          "size_kb": 0.05
+        }
+      ]
+    },
+    "2": {
+      "length": 2,
+      "word_count": 427,
+      "sample_words": [
+        "aa",
+        "ab",
+        "ac",
+        "ad",
+        "ae"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_2.json",
+          "size_kb": 3.34
+        },
+        {
+          "format": "txt",
+          "filename": "words_2.txt",
+          "size_kb": 1.25
+        }
+      ]
+    },
+    "3": {
+      "length": 3,
+      "word_count": 2130,
+      "sample_words": [
+        "aaa",
+        "aah",
+        "aal",
+        "aam",
+        "aas"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_3.json",
+          "size_kb": 18.72
+        },
+        {
+          "format": "txt",
+          "filename": "words_3.txt",
+          "size_kb": 8.32
+        }
+      ]
+    },
+    "4": {
+      "length": 4,
+      "word_count": 7185,
+      "sample_words": [
+        "aahs",
+        "aals",
+        "aani",
+        "aaru",
+        "abac"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_4.json",
+          "size_kb": 70.17
+        },
+        {
+          "format": "txt",
+          "filename": "words_4.txt",
+          "size_kb": 35.08
+        }
+      ]
+    },
+    "5": {
+      "length": 5,
+      "word_count": 15918,
+      "sample_words": [
+        "aahed",
+        "aalii",
+        "aargh",
+        "aaron",
+        "abaca"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_5.json",
+          "size_kb": 171.0
+        },
+        {
+          "format": "txt",
+          "filename": "words_5.txt",
+          "size_kb": 93.27
+        }
+      ]
+    },
+    "6": {
+      "length": 6,
+      "word_count": 29874,
+      "sample_words": [
+        "aahing",
+        "aaliis",
+        "aarrgh",
+        "ababua",
+        "abacas"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_6.json",
+          "size_kb": 350.09
+        },
+        {
+          "format": "txt",
+          "filename": "words_6.txt",
+          "size_kb": 204.22
+        }
+      ]
+    },
+    "7": {
+      "length": 7,
+      "word_count": 41997,
+      "sample_words": [
+        "aaronic",
+        "aarrghh",
+        "ababdeh",
+        "abacate",
+        "abacaxi"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_7.json",
+          "size_kb": 533.17
+        },
+        {
+          "format": "txt",
+          "filename": "words_7.txt",
+          "size_kb": 328.1
+        }
+      ]
+    },
+    "8": {
+      "length": 8,
+      "word_count": 51626,
+      "sample_words": [
+        "aardvark",
+        "aardwolf",
+        "aaronite",
+        "aasvogel",
+        "abacisci"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_8.json",
+          "size_kb": 705.83
+        },
+        {
+          "format": "txt",
+          "filename": "words_8.txt",
+          "size_kb": 453.74
+        }
+      ]
+    },
+    "9": {
+      "length": 9,
+      "word_count": 53403,
+      "sample_words": [
+        "aardvarks",
+        "aaronical",
+        "aaronitic",
+        "aasvogels",
+        "abacinate"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_9.json",
+          "size_kb": 782.27
+        },
+        {
+          "format": "txt",
+          "filename": "words_9.txt",
+          "size_kb": 521.51
+        }
+      ]
+    },
+    "10": {
+      "length": 10,
+      "word_count": 45872,
+      "sample_words": [
+        "aardwolves",
+        "abacterial",
+        "abalienate",
+        "abandoners",
+        "abandoning"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_10.json",
+          "size_kb": 716.75
+        },
+        {
+          "format": "txt",
+          "filename": "words_10.txt",
+          "size_kb": 492.77
+        }
+      ]
+    },
+    "11": {
+      "length": 11,
+      "word_count": 37539,
+      "sample_words": [
+        "abacination",
+        "abactinally",
+        "abalienated",
+        "abandonable",
+        "abandonedly"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_11.json",
+          "size_kb": 623.21
+        },
+        {
+          "format": "txt",
+          "filename": "words_11.txt",
+          "size_kb": 439.91
+        }
+      ]
+    },
+    "12": {
+      "length": 12,
+      "word_count": 29124,
+      "sample_words": [
+        "abalienating",
+        "abalienation",
+        "abandonments",
+        "abbotnullius",
+        "abbreviately"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_12.json",
+          "size_kb": 511.95
+        },
+        {
+          "format": "txt",
+          "filename": "words_12.txt",
+          "size_kb": 369.74
+        }
+      ]
+    },
+    "13": {
+      "length": 13,
+      "word_count": 20944,
+      "sample_words": [
+        "abbreviatable",
+        "abbreviations",
+        "abdominoscope",
+        "abdominoscopy",
+        "abiogenetical"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_13.json",
+          "size_kb": 388.61
+        },
+        {
+          "format": "txt",
+          "filename": "words_13.txt",
+          "size_kb": 286.34
+        }
+      ]
+    },
+    "14": {
+      "length": 14,
+      "word_count": 14148,
+      "sample_words": [
+        "abarticulation",
+        "abdominocystic",
+        "abolitionising",
+        "abolitionizing",
+        "abominableness"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_14.json",
+          "size_kb": 276.33
+        },
+        {
+          "format": "txt",
+          "filename": "words_14.txt",
+          "size_kb": 207.25
+        }
+      ]
+    },
+    "15": {
+      "length": 15,
+      "word_count": 8847,
+      "sample_words": [
+        "abdominocardiac",
+        "abdominogenital",
+        "abdominovaginal",
+        "abdominovesical",
+        "abiogenetically"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_15.json",
+          "size_kb": 181.43
+        },
+        {
+          "format": "txt",
+          "filename": "words_15.txt",
+          "size_kb": 138.23
+        }
+      ]
+    },
+    "16": {
+      "length": 16,
+      "word_count": 5182,
+      "sample_words": [
+        "abdominoanterior",
+        "abdominocentesis",
+        "abdominothoracic",
+        "absentmindedness",
+        "absolutistically"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_16.json",
+          "size_kb": 111.33
+        },
+        {
+          "format": "txt",
+          "filename": "words_16.txt",
+          "size_kb": 86.03
+        }
+      ]
+    },
+    "17": {
+      "length": 17,
+      "word_count": 2968,
+      "sample_words": [
+        "abdominoposterior",
+        "accommodatingness",
+        "accommodativeness",
+        "acetmethylanilide",
+        "achromobacterieae"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_17.json",
+          "size_kb": 66.67
+        },
+        {
+          "format": "txt",
+          "filename": "words_17.txt",
+          "size_kb": 52.17
+        }
+      ]
+    },
+    "18": {
+      "length": 18,
+      "word_count": 1470,
+      "sample_words": [
+        "aceanthrenequinone",
+        "acetylaminobenzene",
+        "acrotrophoneurosis",
+        "actinoelectrically",
+        "actinotherapeutics"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_18.json",
+          "size_kb": 34.46
+        },
+        {
+          "format": "txt",
+          "filename": "words_18.txt",
+          "size_kb": 27.28
+        }
+      ]
+    },
+    "19": {
+      "length": 19,
+      "word_count": 760,
+      "sample_words": [
+        "abdominohysterotomy",
+        "adenochondrosarcoma",
+        "adenylpyrophosphate",
+        "adrenocorticotropic",
+        "aerobacteriological"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_19.json",
+          "size_kb": 18.56
+        },
+        {
+          "format": "txt",
+          "filename": "words_19.txt",
+          "size_kb": 14.84
+        }
+      ]
+    },
+    "20": {
+      "length": 20,
+      "word_count": 359,
+      "sample_words": [
+        "abdominohysterectomy",
+        "acetylcholinesterase",
+        "acetylmethylcarbinol",
+        "adrenocorticosteroid",
+        "adrenocorticotrophic"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_20.json",
+          "size_kb": 9.12
+        },
+        {
+          "format": "txt",
+          "filename": "words_20.txt",
+          "size_kb": 7.36
+        }
+      ]
+    },
+    "21": {
+      "length": 21,
+      "word_count": 168,
+      "sample_words": [
+        "acetylphenylhydrazine",
+        "aerobacteriologically",
+        "alkylbenzenesulfonate",
+        "aminoacetophenetidine",
+        "anatomicopathological"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_21.json",
+          "size_kb": 4.43
+        },
+        {
+          "format": "txt",
+          "filename": "words_21.txt",
+          "size_kb": 3.61
+        }
+      ]
+    },
+    "22": {
+      "length": 22,
+      "word_count": 74,
+      "sample_words": [
+        "alkylbenzenesulfonates",
+        "anatomicophysiological",
+        "aquopentamminecobaltic",
+        "astrospherecentrosomic",
+        "blepharoconjunctivitis"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_22.json",
+          "size_kb": 2.03
+        },
+        {
+          "format": "txt",
+          "filename": "words_22.txt",
+          "size_kb": 1.66
+        }
+      ]
+    },
+    "23": {
+      "length": 23,
+      "word_count": 31,
+      "sample_words": [
+        "anthropomorphologically",
+        "blepharosphincterectomy",
+        "chlorotrifluoroethylene",
+        "desoxyribonucleoprotein",
+        "dichlorodifluoromethane"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_23.json",
+          "size_kb": 0.88
+        },
+        {
+          "format": "txt",
+          "filename": "words_23.txt",
+          "size_kb": 0.73
+        }
+      ]
+    },
+    "24": {
+      "length": 24,
+      "word_count": 12,
+      "sample_words": [
+        "diphenylaminechlorarsine",
+        "disestablishmentarianism",
+        "electrocardiographically",
+        "formaldehydesulphoxylate",
+        "magnetothermoelectricity"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_24.json",
+          "size_kb": 0.35
+        },
+        {
+          "format": "txt",
+          "filename": "words_24.txt",
+          "size_kb": 0.29
+        }
+      ]
+    },
+    "25": {
+      "length": 25,
+      "word_count": 8,
+      "sample_words": [
+        "antidisestablishmentarian",
+        "demethylchlortetracycline",
+        "electroencephalographical",
+        "immunoelectrophoretically",
+        "microspectrophotometrical"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_25.json",
+          "size_kb": 0.24
+        },
+        {
+          "format": "txt",
+          "filename": "words_25.txt",
+          "size_kb": 0.2
+        }
+      ]
+    },
+    "27": {
+      "length": 27,
+      "word_count": 3,
+      "sample_words": [
+        "electroencephalographically",
+        "hydroxydesoxycorticosterone",
+        "microspectrophotometrically"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_27.json",
+          "size_kb": 0.1
+        },
+        {
+          "format": "txt",
+          "filename": "words_27.txt",
+          "size_kb": 0.08
+        }
+      ]
+    },
+    "28": {
+      "length": 28,
+      "word_count": 2,
+      "sample_words": [
+        "antidisestablishmentarianism",
+        "hydroxydehydrocorticosterone"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_28.json",
+          "size_kb": 0.07
+        },
+        {
+          "format": "txt",
+          "filename": "words_28.txt",
+          "size_kb": 0.06
+        }
+      ]
+    },
+    "29": {
+      "length": 29,
+      "word_count": 2,
+      "sample_words": [
+        "cyclotrimethylenetrinitramine",
+        "trinitrophenylmethylnitramine"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_29.json",
+          "size_kb": 0.07
+        },
+        {
+          "format": "txt",
+          "filename": "words_29.txt",
+          "size_kb": 0.06
+        }
+      ]
+    },
+    "31": {
+      "length": 31,
+      "word_count": 1,
+      "sample_words": [
+        "dichlorodiphenyltrichloroethane"
+      ],
+      "files": [
+        {
+          "format": "json",
+          "filename": "words_31.json",
+          "size_kb": 0.04
+        },
+        {
+          "format": "txt",
+          "filename": "words_31.txt",
+          "size_kb": 0.03
+        }
+      ]
+    }
+  }
+}

@@ -1,15 +1,22 @@
 from typing import List, Union
-from pydantic import AnyHttpUrl, field_validator
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 import json
 
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "Generate Word API"
+    PROJECT_NAME: str = "Word Solver API"
     API_V1_STR: str = "/api/v1"
     PORT: int = 8000
     HOST: str = "0.0.0.0"
     DEBUG: bool = True
+
+    # Test / Debug flags
+    TEST_MODE: bool = False
+
+    # Solver / Resolver configuration
+    VOTEE_API_BASE_URL: str = "https://wordle.votee.dev:8000"
+    MAX_SOLVE_ATTEMPTS: int = 30
 
     # CORS configuration
     CORS_ORIGINS: Union[List[str], str] = [

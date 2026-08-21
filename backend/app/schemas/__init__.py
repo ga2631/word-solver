@@ -1,17 +1,13 @@
-from app.schemas.word import (
-    HealthCheck,
-    WordGenerateRequest,
-    WordGenerateResponse,
-    GeneratedWord,
-    WordAnalyzeRequest,
-    WordAnalyzeResponse,
-)
+from app.schemas.word import HealthCheck
+from app.schemas.wordle import GuessResult, ResultKind
+from app.schemas.resolve import ResolveMode, ResolveRequest, ResolveStep, ResolveResponse
 
 __all__ = [
     "HealthCheck",
-    "WordGenerateRequest",
-    "WordGenerateResponse",
-    "GeneratedWord",
-    "WordAnalyzeRequest",
-    "WordAnalyzeResponse",
+    "ResultKind",
+    "GuessResult",
+    "ResolveMode",
+    "ResolveRequest",
+    "ResolveStep",
+    "ResolveResponse",
 ]
