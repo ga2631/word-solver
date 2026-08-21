@@ -25,6 +25,19 @@ export async function getStartingWord(size = 5) {
 }
 
 /**
+ * Get a random word from the dictionary of the specified size
+ */
+export async function getRandomWord(size = 5, seed = null) {
+  const seedParam = seed ? `&seed=${encodeURIComponent(seed)}` : '';
+  const response = await fetch(`${API_BASE}/api/v1/random/word?size=${size}${seedParam}`);
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.detail || `Failed to fetch random word for length ${size}`);
+  }
+  return response.json();
+}
+
+/**
  * Request next optimal guess based on previous history feedback
  */
 export async function getNextGuess(size, history) {

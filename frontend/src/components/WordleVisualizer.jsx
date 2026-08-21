@@ -16,8 +16,14 @@ import {
   Zap,
   Info,
   Timer,
+  Dices,
 } from 'lucide-react';
-import { getStartingWord, getNextGuess, evaluateGuessLive } from '../services/api';
+import {
+  getStartingWord,
+  getNextGuess,
+  evaluateGuessLive,
+  getRandomWord,
+} from '../services/api';
 
 const MODE_CONFIG = {
   daily: {
@@ -45,6 +51,12 @@ export function WordleVisualizer() {
   const [wordLength, setWordLength] = useState(5);
   const [selectedWord, setSelectedWord] = useState('');
   const [inputError, setInputError] = useState('');
+
+  // Random Mode seed configuration
+  const [randomSeed, setRandomSeed] = useState('');
+  const [activeSeed, setActiveSeed] = useState(null);
+  const [randomWordPreview, setRandomWordPreview] = useState(null);
+  const [isGeneratingWord, setIsGeneratingWord] = useState(false);
 
   // Environment configuration: false = Local Test Evaluator, true = Live Votee Dev API
   const [useRemoteApi, setUseRemoteApi] = useState(false);
@@ -123,6 +135,31 @@ export function WordleVisualizer() {
     handleReset();
   };
 
+  const handleRerollSeed = () => {
+    if (status === 'running') return;
+    const newSeed = String(Math.floor(Math.random() * 900000) + 100000);
+    setRandomSeed(newSeed);
+    setRandomWordPreview(null);
+  };
+
+  const handleGenerateRandomWord = async () => {
+    if (status === 'running') return;
+    setIsGeneratingWord(true);
+    try {
+      const data = await getRandomWord(wordLength, randomSeed.trim() || null);
+      if (data && data.word) {
+        setRandomWordPreview(data.word.toUpperCase());
+        if (data.seed) {
+          setRandomSeed(String(data.seed));
+        }
+      }
+    } catch (err) {
+      setGlobalError(err.message || 'Không thể tạo từ ngẫu nhiên từ từ điển');
+    } finally {
+      setIsGeneratingWord(false);
+    }
+  };
+
   const handleReset = () => {
     abortControllerRef.current = true;
     setStatus('idle');
@@ -131,6 +168,8 @@ export function WordleVisualizer() {
     setSteps([]);
     setFlippedRows([]);
     setTargetWord(null);
+    setActiveSeed(null);
+    setRandomWordPreview(null);
     setEliminatedLetters([]);
     setLetterStatusMap({});
     setSolveStats({
@@ -179,6 +218,18 @@ export function WordleVisualizer() {
     const startTime = Date.now();
     const effectiveSize = mode === 'selected' ? selectedWord.trim().length : wordLength;
 
+    // Fixed deterministic seed for Random mode so random word does NOT change across guesses
+    const sessionSeed =
+      mode === 'random'
+        ? (randomSeed.trim() || String(Math.floor(Math.random() * 900000) + 100000))
+        : undefined;
+
+    if (mode === 'random') {
+      setActiveSeed(sessionSeed);
+    } else {
+      setActiveSeed(null);
+    }
+
     try {
       // 1. Get initial strategic starting word
       let currentGuess = strategicStartingWord;
@@ -217,12 +268,13 @@ export function WordleVisualizer() {
         ]);
         setFlippedRows((prev) => [...prev, initialRowFlipped]);
 
-        // 3. Call Evaluation API
+        // 3. Call Evaluation API with consistent seed for Random mode
         const evalFeedback = await evaluateGuessLive({
           mode: mode === 'selected' ? 'word' : mode,
           guess: currentGuess,
           size: effectiveSize,
           word: mode === 'selected' ? selectedWord.trim().toLowerCase() : undefined,
+          seed: mode === 'random' ? sessionSeed : undefined,
           useRemoteApi,
         });
 
@@ -430,6 +482,64 @@ export function WordleVisualizer() {
           </div>
         )}
 
+        {/* Random Mode Seed & Dictionary Word Generator Controls */}
+        {mode === 'random' && (
+          <div className="random-control-card animate-fade-in">
+            <div className="random-control-header">
+              <span className="random-control-title">
+                <Dices size={14} />
+                Seed ngẫu nhiên (Cố định phiên)
+              </span>
+              {activeSeed && (
+                <span className="badge-pill success">Đang giải #{activeSeed}</span>
+              )}
+            </div>
+
+            <div className="input-with-action">
+              <input
+                id="random-seed-input"
+                type="text"
+                className="form-input"
+                placeholder="Tùy chọn Seed (hoặc để trống tự tạo)..."
+                value={randomSeed}
+                onChange={(e) => {
+                  setRandomSeed(e.target.value);
+                  setRandomWordPreview(null);
+                }}
+                disabled={status === 'running'}
+              />
+              <button
+                type="button"
+                className="btn-icon-action"
+                title="Tạo seed ngẫu nhiên mới"
+                onClick={handleRerollSeed}
+                disabled={status === 'running'}
+              >
+                <Shuffle size={14} />
+              </button>
+            </div>
+
+            <button
+              type="button"
+              className="btn-secondary-action"
+              onClick={handleGenerateRandomWord}
+              disabled={status === 'running' || isGeneratingWord}
+            >
+              <Sparkles size={13} />
+              <span>
+                {isGeneratingWord ? 'Đang lấy từ...' : 'Lấy từ mẫu từ từ điển'}
+              </span>
+            </button>
+
+            {randomWordPreview && (
+              <div className="random-word-preview">
+                <span className="random-word-preview-label">Từ trong từ điển:</span>
+                <span className="random-word-preview-value">{randomWordPreview}</span>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Selected Word Input (Selected Mode Only) */}
         {mode === 'selected' && (
           <div className="control-section animate-fade-in">
@@ -634,6 +744,12 @@ export function WordleVisualizer() {
             <div className="time-badge">
               <Timer size={13} />
               <span>Thời gian: {(solveStats.elapsedMs / 1000).toFixed(2)}s</span>
+            </div>
+          )}
+          {mode === 'random' && activeSeed && (
+            <div className="time-badge" style={{ marginTop: '0.35rem' }}>
+              <Dices size={13} />
+              <span>Phiên giải Seed: #{activeSeed}</span>
             </div>
           )}
         </div>

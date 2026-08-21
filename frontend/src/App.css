@@ -458,6 +458,119 @@
   color: var(--text-muted);
 }
 
+/* Random Seed & Generator Card */
+.random-control-card {
+  margin: 0.75rem 1.1rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius-sm);
+  background: rgba(99, 102, 241, 0.07);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.random-control-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.random-control-title {
+  font-size: 0.725rem;
+  font-weight: 600;
+  color: #818cf8;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.input-with-action {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.input-with-action .form-input {
+  flex: 1;
+  padding-right: 0.75rem;
+}
+
+.btn-icon-action {
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #a5b4fc;
+  border-radius: var(--radius-sm);
+  padding: 0 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-icon-action:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.3);
+  color: #ffffff;
+}
+
+.btn-icon-action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary-action {
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px dashed rgba(99, 102, 241, 0.35);
+  color: #c7d2fe;
+  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: 100%;
+}
+
+.btn-secondary-action:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.5);
+  color: #ffffff;
+}
+
+.btn-secondary-action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.random-word-preview {
+  margin-top: 0.25rem;
+  padding: 0.4rem 0.6rem;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.random-word-preview-label {
+  color: var(--text-muted);
+}
+
+.random-word-preview-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: #34d399;
+  letter-spacing: 0.05em;
+}
+
 /* Alert Banner */
 .alert-banner {
   margin: 0.5rem 1.1rem;

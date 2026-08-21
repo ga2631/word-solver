@@ -79,3 +79,35 @@ def test_service_get_random_word_seeded():
     word2 = WordleService.get_random_word(size=5, seed="seed-abc")
     assert word1 == word2
     assert len(word1) == 5
+
+
+def test_random_word_from_dictionary():
+    dict_words_5 = WordleService.get_words_by_length(5)
+    for _ in range(20):
+        word = WordleService.get_random_word(size=5)
+        assert word in dict_words_5
+        assert len(word) == 5
+
+
+def test_api_get_random_word_endpoint():
+    # 1. Default size
+    response = client.get("/api/v1/random/word")
+    assert response.status_code == 200
+    data = response.json()
+    assert "word" in data
+    assert len(data["word"]) == 5
+    assert data["size"] == 5
+    dict_words = WordleService.get_words_by_length(5)
+    assert data["word"] in dict_words
+
+    # 2. Custom size with seed
+    res2 = client.get("/api/v1/random/word?size=6&seed=seed123")
+    assert res2.status_code == 200
+    d2 = res2.json()
+    assert len(d2["word"]) == 6
+    assert d2["size"] == 6
+    assert d2["seed"] == "seed123"
+
+    res3 = client.get("/api/v1/random/word?size=6&seed=seed123")
+    assert res3.json()["word"] == d2["word"]
+

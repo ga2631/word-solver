@@ -156,6 +156,22 @@ async def test_resolver_service_solve_random_mode_with_seed():
 
 
 @pytest.mark.anyio
+async def test_resolver_service_solve_random_mode_without_seed():
+    req = ResolveRequest(
+        mode=ResolveMode.RANDOM,
+        size=5,
+    )
+    res = await ResolverService.resolve(req)
+    assert res.success is True
+    assert res.mode == ResolveMode.RANDOM
+    assert res.target_word is not None
+    assert len(res.target_word) == 5
+    # Verify target word exists in 5-letter dictionary
+    dict_5 = WordleService.get_words_by_length(5)
+    assert res.target_word in dict_5
+
+
+@pytest.mark.anyio
 async def test_resolver_service_solve_different_length():
     req = ResolveRequest(
         mode=ResolveMode.WORD,

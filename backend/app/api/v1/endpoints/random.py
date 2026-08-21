@@ -8,6 +8,29 @@ router = APIRouter()
 
 
 @router.get(
+    "/random/word",
+    summary="Get Random Word",
+    description="Get a random word from the dictionary of the specified length.",
+)
+async def get_random_word(
+    size: int = Query(5, ge=1, le=50, description="Length of word (default: 5)"),
+    seed: Optional[str] = Query(None, description="Optional seed string for deterministic selection"),
+) -> dict:
+    try:
+        word = WordleService.get_random_word(size=size, seed=seed)
+        return {
+            "word": word,
+            "size": size,
+            "seed": seed,
+        }
+    except (FileNotFoundError, ValueError) as e:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(e),
+        )
+
+
+@router.get(
     "/random",
     response_model=List[GuessResult],
     summary="Guess Random Word",
@@ -43,5 +66,7 @@ async def guess_random(
     if settings.TEST_MODE:
         response.headers["X-Random-Word"] = target_word
         response.headers["X-Target-Word"] = target_word
+        if seed is not None:
+            response.headers["X-Random-Seed"] = str(seed)
 
     return WordleService.evaluate_guess(target=target_word, guess=clean_guess)

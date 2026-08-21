@@ -1,6 +1,7 @@
 import concurrent.futures
 import logging
 import os
+import random
 import time
 from typing import Dict, List, Optional, Set
 import httpx
@@ -406,13 +407,19 @@ class ResolverService:
 
         use_remote_api = not settings.TEST_MODE
 
+        # Ensure a deterministic seed is established for RANDOM mode if not provided,
+        # so target word from dictionary remains constant throughout the entire resolution process
+        effective_seed = request.seed
+        if mode == ResolveMode.RANDOM and not effective_seed:
+            effective_seed = str(random.randint(1, 1000000))
+
         internal_target: Optional[str] = None
         if not use_remote_api:
             if mode == ResolveMode.DAILY:
                 internal_target = WordleService.get_daily_word(size=size)
             elif mode == ResolveMode.RANDOM:
                 internal_target = WordleService.get_random_word(
-                    size=size, seed=request.seed
+                    size=size, seed=effective_seed
                 )
             elif mode == ResolveMode.WORD:
                 internal_target = target_word_param
@@ -435,7 +442,7 @@ class ResolverService:
                         guess=current_guess,
                         size=size,
                         word=target_word_param,
-                        seed=request.seed,
+                        seed=effective_seed,
                     )
                 else:
                     assert internal_target is not None
