@@ -169,19 +169,6 @@ export function WordleVisualizer() {
 
   return (
     <div className="wordle-visualizer-container">
-      {/* Header Badge & Title */}
-      <div className="visualizer-header">
-        <div className="hero-badge">
-          <Sparkles size={14} /> Trực quan hoá thuật toán đoán từ
-        </div>
-        <h1 className="visualizer-title">
-          Wordle <span className="gradient-text">Auto-Solver</span>
-        </h1>
-        <p className="visualizer-subtitle">
-          Thuật toán tự động tìm từ tối ưu theo lý thuyết thông tin (Information Gain) kết nối API Wordle.
-        </p>
-      </div>
-
       {/* Control Panel */}
       <div className="solver-control-panel">
         {/* Mode Selector Tabs */}
