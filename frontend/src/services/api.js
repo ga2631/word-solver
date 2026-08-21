@@ -69,3 +69,40 @@ export async function analyzeWord(word) {
 
   return response.json();
 }
+
+/**
+ * Resolve Wordle puzzle using automated solver API
+ * @param {Object} params
+ * @param {'daily'|'random'|'word'} params.mode
+ * @param {number} [params.size=5]
+ * @param {string} [params.word]
+ * @param {string} [params.seed]
+ * @param {string} [params.startingWord]
+ */
+export async function resolveWordle({ mode = 'daily', size = 5, word = '', seed = '', startingWord = '' } = {}) {
+  const params = new URLSearchParams();
+  params.append('mode', mode);
+  params.append('size', String(size));
+
+  if (mode === 'word' && word) {
+    params.append('word', word.trim().toLowerCase());
+  }
+
+  if (mode === 'random' && seed) {
+    params.append('seed', seed.trim());
+  }
+
+  if (startingWord) {
+    params.append('starting_word', startingWord.trim().toLowerCase());
+  }
+
+  const response = await fetch(`${API_BASE}/api/v1/resolve?${params.toString()}`);
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.detail || `Resolve failed with status: ${response.status}`);
+  }
+
+  return response.json();
+}
+

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
-import { WordGenerator } from './components/WordGenerator';
+import { WordleVisualizer } from './components/WordleVisualizer';
 import { checkHealth } from './services/api';
 import './App.css';
 
@@ -24,9 +24,9 @@ export function App() {
 
   return (
     <div className="app-container">
-      <Header isHealthy={isHealthy} />
+      <Header isHealthy={isHealthy}/>
       <main className="main-content">
-        <WordGenerator />
+        <WordleVisualizer />
       </main>
       <footer className="footer">
         <p>© 2026 WordCraft • Full-Stack Python FastAPI & ReactJS Architecture with Docker</p>
@@ -36,3 +36,4 @@ export function App() {
 }
 
 export default App;
+

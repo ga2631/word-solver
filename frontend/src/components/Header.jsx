@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Activity, FileText } from 'lucide-react';
+import { Sparkles, FileText } from 'lucide-react';
 
 export function Header({ isHealthy }) {
   return (
@@ -38,3 +38,4 @@ export function Header({ isHealthy }) {
     </header>
   );
 }
+
