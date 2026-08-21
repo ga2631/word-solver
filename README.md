@@ -16,15 +16,18 @@ generate-word/
 │   │   │       │   ├── daily.py
 │   │   │       │   ├── health.py
 │   │   │       │   ├── random.py
+│   │   │       │   ├── resolve.py
 │   │   │       │   └── word.py
 │   │   │       └── router.py
 │   │   ├── core/             # Configuration & Pydantic settings
 │   │   │   └── config.py
 │   │   ├── schemas/          # Pydantic data validation models
+│   │   │   ├── resolve.py
 │   │   │   ├── word.py
 │   │   │   └── wordle.py
 │   │   ├── services/         # Business logic layer
 │   │   │   ├── daily_store.py
+│   │   │   ├── resolver_service.py
 │   │   │   └── wordle_service.py
 │   │   ├── static/           # Dictionary assets
 │   │   └── main.py           # FastAPI application entrypoint
@@ -35,6 +38,7 @@ generate-word/
 │   │   ├── test_main.py
 │   │   ├── test_process_words.py
 │   │   ├── test_random.py
+│   │   ├── test_resolve.py
 │   │   └── test_word.py
 │   ├── .dockerignore
 │   ├── .env.example
@@ -148,6 +152,7 @@ docker compose down
 | `GET` | `/api/v1/daily` | Check guess against daily puzzle word (`?guess=...&size=5`) |
 | `GET` | `/api/v1/random` | Check guess against random puzzle word (`?guess=...&size=5&seed=...`) |
 | `GET` | `/api/v1/word/{word}` | Check guess against target word (`?guess=...`) |
+| `GET` | `/api/v1/resolve` | Automatically solve Wordle puzzle step-by-step (`?mode=daily&size=5`) |
 
 ---
 

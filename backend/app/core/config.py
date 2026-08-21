@@ -15,6 +15,11 @@ class Settings(BaseSettings):
     SHOW_DAILY_WORD: bool = False
     TEST_MODE: bool = False
 
+    # Solver / Resolver configuration
+    VOTEE_API_BASE_URL: str = "https://wordle.votee.dev:8000"
+    DEFAULT_SOLVER_START_WORD: str = "crane"
+    MAX_SOLVE_ATTEMPTS: int = 30
+
     # CORS configuration
     CORS_ORIGINS: Union[List[str], str] = [
         "http://localhost:3000",
