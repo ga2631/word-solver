@@ -87,8 +87,9 @@ export function WordleVisualizer() {
 
   const abortControllerRef = useRef(false);
 
-  // Load initial starting word on length change
+  // Load initial starting word on length change (for Daily and Random modes)
   useEffect(() => {
+    if (mode === 'selected') return;
     let isMounted = true;
     const loadStartingWord = async () => {
       try {
@@ -106,7 +107,7 @@ export function WordleVisualizer() {
     return () => {
       isMounted = false;
     };
-  }, [wordLength]);
+  }, [wordLength, mode]);
 
   // Handle selected word change with instant validation
   const handleSelectedWordChange = (val) => {
@@ -231,15 +232,15 @@ export function WordleVisualizer() {
     }
 
     try {
-      // 1. Get initial strategic starting word
-      let currentGuess = strategicStartingWord;
+      // 1. Get initial strategic starting word based on word length
+      let currentGuess = '';
       try {
         const startData = await getStartingWord(effectiveSize);
         if (startData.starting_word) {
           currentGuess = startData.starting_word;
         }
       } catch (e) {
-        // fallback
+        currentGuess = effectiveSize === 5 ? 'crane' : (strategicStartingWord || 'roam');
       }
 
       const historyAccumulator = [];
@@ -567,16 +568,18 @@ export function WordleVisualizer() {
           </div>
         )}
 
-        {/* Auto Strategic Starting Word Info Badge */}
-        <div className="strategic-word-card">
-          <div className="strategic-header">
-            <Zap size={14} className="text-amber" />
-            <span className="strategic-title">Từ khởi đầu chiến lược</span>
+        {/* Auto Strategic Starting Word Info Badge (Hidden in Selected Mode) */}
+        {mode !== 'selected' && (
+          <div className="strategic-word-card">
+            <div className="strategic-header">
+              <Zap size={14} className="text-amber" />
+              <span className="strategic-title">Từ khởi đầu chiến lược</span>
+            </div>
+            <div className="strategic-body">
+              <span className="strategic-word">{strategicStartingWord.toUpperCase()}</span>
+            </div>
           </div>
-          <div className="strategic-body">
-            <span className="strategic-word">{strategicStartingWord.toUpperCase()}</span>
-          </div>
-        </div>
+        )}
 
         {/* Global Error Banner */}
         {globalError && (

@@ -116,7 +116,8 @@ export async function resolveWordle({ mode = 'daily', size = 5, word = '', seed 
     params.append('seed', seed.trim());
   }
 
-  if (startingWord) {
+  // In selected / word mode, starting word is automatically chosen based on secret word length and not passed to API
+  if (startingWord && mode !== 'word' && mode !== 'selected') {
     params.append('starting_word', startingWord.trim().toLowerCase());
   }
 
