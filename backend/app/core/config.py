@@ -16,7 +16,6 @@ class Settings(BaseSettings):
 
     # Solver / Resolver configuration
     VOTEE_API_BASE_URL: str = "https://wordle.votee.dev:8000"
-    DEFAULT_SOLVER_START_WORD: str = "crane"
     MAX_SOLVE_ATTEMPTS: int = 30
 
     # CORS configuration

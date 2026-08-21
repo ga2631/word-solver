@@ -146,11 +146,6 @@ class ResolverService:
                 )
             return clean_word
 
-        if size == 5 and settings.DEFAULT_SOLVER_START_WORD:
-            start = settings.DEFAULT_SOLVER_START_WORD.strip().lower()
-            if len(start) == 5 and (not candidates or start in candidates):
-                return start
-
         if not candidates:
             raise ValueError(f"No dictionary candidates available for size {size}")
 
