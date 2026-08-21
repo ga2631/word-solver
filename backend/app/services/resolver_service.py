@@ -1,5 +1,8 @@
+import concurrent.futures
 import logging
-from typing import Dict, List, Optional
+import os
+import time
+from typing import Dict, List, Optional, Set
 import httpx
 from app.core.config import settings
 from app.schemas.resolve import (
@@ -7,6 +10,11 @@ from app.schemas.resolve import (
     ResolveRequest,
     ResolveResponse,
     ResolveStep,
+)
+from app.schemas.solver import (
+    HistoryStepInput,
+    NextGuessResponse,
+    StartingWordResponse,
 )
 from app.schemas.wordle import GuessResult, ResultKind
 from app.services.wordle_service import WordleService
@@ -43,8 +51,29 @@ ENGLISH_LETTER_FREQ: Dict[str, float] = {
     "z": 0.07,
 }
 
+# Curated strategic starting words by word length
+DEFAULT_STARTING_WORDS: Dict[int, str] = {
+    1: "a",
+    2: "an",
+    3: "ate",
+    4: "roam",
+    5: "crane",
+    6: "sterna",
+    7: "stearin",
+    8: "notaires",
+    9: "orientals",
+    10: "derogation",
+    11: "considerate",
+    12: "relationship",
+    13: "interrogative",
+    14: "interrelations",
+    15: "indestructible",
+}
+
 
 class ResolverService:
+    _cpu_count: int = max(1, os.cpu_count() or 4)
+
     @staticmethod
     def score_word(word: str) -> float:
         """
@@ -126,6 +155,72 @@ class ResolverService:
         return True
 
     @classmethod
+    def _filter_chunk(
+        cls,
+        chunk: List[str],
+        guess: str,
+        feedback: List[GuessResult],
+    ) -> List[str]:
+        """Filter a sub-chunk of candidates against guess feedback."""
+        return [
+            w
+            for w in chunk
+            if w != guess and cls.matches_feedback(w, guess, feedback)
+        ]
+
+    @classmethod
+    def filter_candidates(
+        cls,
+        candidates: List[str],
+        guess: str,
+        feedback: List[GuessResult],
+    ) -> List[str]:
+        """
+        Filter candidates utilizing ThreadPoolExecutor multi-threading
+        when candidate pool is large (> 400 items).
+        """
+        if len(candidates) <= 400:
+            return cls._filter_chunk(candidates, guess, feedback)
+
+        num_workers = min(cls._cpu_count, 4)
+        chunk_size = (len(candidates) + num_workers - 1) // num_workers
+        chunks = [
+            candidates[i : i + chunk_size]
+            for i in range(0, len(candidates), chunk_size)
+            if candidates[i : i + chunk_size]
+        ]
+
+        filtered: List[str] = []
+        with concurrent.futures.ThreadPoolExecutor(max_workers=num_workers) as executor:
+            futures = [
+                executor.submit(cls._filter_chunk, chunk, guess, feedback)
+                for chunk in chunks
+            ]
+            for fut in concurrent.futures.as_completed(futures):
+                filtered.extend(fut.result())
+
+        return filtered
+
+    @classmethod
+    def get_starting_word(cls, size: int) -> str:
+        """
+        Get the strategic initial starting word based on word length.
+        First checks DEFAULT_STARTING_WORDS. If not present or not in dictionary,
+        picks the candidate with the highest information score.
+        """
+        candidates = WordleService.get_words_by_length(size)
+        if not candidates:
+            raise ValueError(f"No dictionary candidates available for size {size}")
+
+        if size in DEFAULT_STARTING_WORDS:
+            preferred = DEFAULT_STARTING_WORDS[size]
+            if preferred in candidates:
+                return preferred
+
+        sorted_cands = sorted(candidates, key=cls.score_word, reverse=True)
+        return sorted_cands[0]
+
+    @classmethod
     def choose_initial_word(
         cls,
         size: int,
@@ -134,8 +229,7 @@ class ResolverService:
     ) -> str:
         """
         Choose the initial guess word.
-        Uses custom starting word if provided, otherwise 'crane' for 5-letter words
-        or the highest-scoring candidate for any word size.
+        Uses custom starting word if provided, otherwise returns strategic starting word.
         """
         if custom_starting_word:
             clean_word = custom_starting_word.strip().lower()
@@ -149,9 +243,83 @@ class ResolverService:
         if not candidates:
             raise ValueError(f"No dictionary candidates available for size {size}")
 
-        # Pick candidate with the highest information score
+        if size in DEFAULT_STARTING_WORDS:
+            preferred = DEFAULT_STARTING_WORDS[size]
+            if preferred in candidates:
+                return preferred
+
         sorted_candidates = sorted(candidates, key=cls.score_word, reverse=True)
         return sorted_candidates[0]
+
+    @classmethod
+    def extract_eliminated_letters(
+        cls, history: List[HistoryStepInput]
+    ) -> List[str]:
+        """
+        Compute sorted list of all alphabet characters that have been completely eliminated
+        (i.e. absent and never correct/present in any slot).
+        """
+        absent_chars: Set[str] = set()
+        active_chars: Set[str] = set()
+
+        for step in history:
+            for item in step.feedback:
+                c = item.guess.lower()
+                if item.result == ResultKind.CORRECT or item.result == ResultKind.PRESENT:
+                    active_chars.add(c)
+                elif item.result == ResultKind.ABSENT:
+                    absent_chars.add(c)
+
+        eliminated = absent_chars - active_chars
+        return sorted(list(eliminated))
+
+    @classmethod
+    def get_next_guess(
+        cls, size: int, history: List[HistoryStepInput]
+    ) -> NextGuessResponse:
+        """
+        Calculate next optimal guess given the history of previous guesses and feedbacks.
+        """
+        start_time = time.perf_counter()
+
+        candidates = list(WordleService.get_words_by_length(size))
+        if not candidates:
+            raise ValueError(f"No dictionary candidates found for size {size}")
+
+        # Filter candidates against each history step
+        for step in history:
+            candidates = cls.filter_candidates(
+                candidates=candidates,
+                guess=step.guess.lower(),
+                feedback=step.feedback,
+            )
+            if not candidates:
+                break
+
+        eliminated_letters = cls.extract_eliminated_letters(history)
+        remaining_count = len(candidates)
+        execution_time_ms = round((time.perf_counter() - start_time) * 1000, 2)
+
+        if remaining_count == 0:
+            return NextGuessResponse(
+                next_guess=None,
+                remaining_candidates_count=0,
+                eliminated_letters=eliminated_letters,
+                is_exhausted=True,
+                execution_time_ms=execution_time_ms,
+            )
+
+        # Rank candidates by information score
+        candidates.sort(key=cls.score_word, reverse=True)
+        next_guess = candidates[0]
+
+        return NextGuessResponse(
+            next_guess=next_guess,
+            remaining_candidates_count=remaining_count,
+            eliminated_letters=eliminated_letters,
+            is_exhausted=False,
+            execution_time_ms=execution_time_ms,
+        )
 
     @classmethod
     async def _evaluate_remote(
@@ -236,9 +404,6 @@ class ResolverService:
         )
         starting_word = current_guess
 
-        # Determine evaluation mode based on TEST_MODE setting:
-        # TEST_MODE=True -> Local internal evaluation
-        # TEST_MODE=False -> Remote API evaluation at settings.VOTEE_API_BASE_URL
         use_remote_api = not settings.TEST_MODE
 
         internal_target: Optional[str] = None
@@ -298,13 +463,12 @@ class ResolverService:
                     message = f"Puzzle solved successfully in {attempt_idx} attempt(s)."
                     break
 
-                # 3. Filter candidates based on feedback
-                candidates = [
-                    w
-                    for w in candidates
-                    if w != current_guess
-                    and cls.matches_feedback(w, current_guess, feedback)
-                ]
+                # 3. Filter candidates based on feedback (multi-threaded)
+                candidates = cls.filter_candidates(
+                    candidates=candidates,
+                    guess=current_guess,
+                    feedback=feedback,
+                )
 
                 remaining_count = len(candidates)
                 steps.append(

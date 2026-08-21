@@ -7,35 +7,29 @@ export function Header({ isHealthy }) {
       <div className="header-inner">
         <div className="brand">
           <div className="brand-icon">
-            <Sparkles size={22} />
+            <Sparkles size={20} />
           </div>
           <span className="brand-title">WordCraft</span>
+          <span className="brand-subtitle">AI Solver</span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div className="header-actions">
           <a
             href="http://localhost:8000/docs"
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              fontSize: '0.875rem',
-              color: 'var(--text-secondary)',
-            }}
+            className="header-link"
           >
-            <FileText size={16} />
+            <FileText size={14} />
             <span>API Docs</span>
           </a>
 
           <div className="status-badge">
             <span className={`status-dot ${isHealthy ? 'online' : 'offline'}`}></span>
-            <span>{isHealthy ? 'API Connected' : 'API Connecting...'}</span>
+            <span>{isHealthy ? 'API Online' : 'Connecting...'}</span>
           </div>
         </div>
       </div>
     </header>
   );
 }
-

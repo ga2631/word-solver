@@ -28,9 +28,6 @@ export function App() {
       <main className="main-content">
         <WordleVisualizer />
       </main>
-      <footer className="footer">
-        <p>© 2026 WordCraft • Full-Stack Python FastAPI & ReactJS Architecture with Docker</p>
-      </footer>
     </div>
   );
 }

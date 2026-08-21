@@ -273,3 +273,47 @@ def test_api_resolve_invalid_size():
 def test_api_resolve_nonexistent_size():
     response = client.get("/api/v1/resolve?mode=daily&size=49")
     assert response.status_code == 400 or response.status_code == 404
+
+
+def test_api_solver_starting_word():
+    response = client.get("/api/v1/solver/starting-word?size=5")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["size"] == 5
+    assert data["starting_word"] == "crane"
+    assert data["total_candidates"] > 0
+
+    # Test size 4
+    response_4 = client.get("/api/v1/solver/starting-word?size=4")
+    assert response_4.status_code == 200
+    assert response_4.json()["starting_word"] == "roam"
+
+
+def test_api_solver_next_guess():
+    payload = {
+        "size": 5,
+        "history": [
+            {
+                "guess": "crane",
+                "feedback": [
+                    {"slot": 0, "guess": "c", "result": "absent"},
+                    {"slot": 1, "guess": "r", "result": "correct"},
+                    {"slot": 2, "guess": "a", "result": "present"},
+                    {"slot": 3, "guess": "n", "result": "absent"},
+                    {"slot": 4, "guess": "e", "result": "absent"},
+                ],
+            }
+        ],
+    }
+    response = client.post("/api/v1/solver/next-guess", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["next_guess"] is not None
+    assert len(data["next_guess"]) == 5
+    assert data["remaining_candidates_count"] > 0
+    assert "c" in data["eliminated_letters"]
+    assert "n" in data["eliminated_letters"]
+    assert "e" in data["eliminated_letters"]
+    assert data["is_exhausted"] is False
+    assert "execution_time_ms" in data
+

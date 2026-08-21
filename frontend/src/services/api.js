@@ -1,4 +1,5 @@
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+const REMOTE_VOTEE_API_BASE = 'https://wordle.votee.dev:8000';
 
 /**
  * Fetch health status of the backend API
@@ -12,72 +13,82 @@ export async function checkHealth() {
 }
 
 /**
- * Fetch available word categories
+ * Get strategic initial starting word for a word length
  */
-export async function getCategories() {
-  const response = await fetch(`${API_BASE}/api/v1/words/categories`);
+export async function getStartingWord(size = 5) {
+  const response = await fetch(`${API_BASE}/api/v1/solver/starting-word?size=${size}`);
   if (!response.ok) {
-    throw new Error(`Failed to fetch categories: ${response.status}`);
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.detail || `Failed to fetch starting word for length ${size}`);
   }
   return response.json();
 }
 
 /**
- * Generate words with parameters
+ * Request next optimal guess based on previous history feedback
  */
-export async function generateWords({ category, count, prefix, minLength, maxLength }) {
-  const payload = {
-    category: category || 'general',
-    count: Number(count) || 5,
-    prefix: prefix || '',
-    min_length: Number(minLength) || 3,
-    max_length: Number(maxLength) || 15,
-  };
-
-  const response = await fetch(`${API_BASE}/api/v1/words/generate`, {
+export async function getNextGuess(size, history) {
+  const response = await fetch(`${API_BASE}/api/v1/solver/next-guess`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify({
+      size: Number(size),
+      history: history.map((h) => ({
+        guess: h.guess,
+        feedback: h.feedback || h.results,
+      })),
+    }),
   });
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.detail || `Generation failed with status: ${response.status}`);
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.detail || 'Failed to calculate next guess');
   }
 
   return response.json();
 }
 
 /**
- * Analyze a word
+ * Evaluate a single guess against either Local Mock API or Remote Votee API
  */
-export async function analyzeWord(word) {
-  const response = await fetch(`${API_BASE}/api/v1/words/analyze`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ word }),
-  });
+export async function evaluateGuessLive({
+  mode = 'daily',
+  guess = '',
+  size = 5,
+  word = '',
+  seed = '',
+  useRemoteApi = false,
+} = {}) {
+  const baseUrl = useRemoteApi ? REMOTE_VOTEE_API_BASE : `${API_BASE}/api/v1`;
+  let url = '';
 
+  const cleanGuess = guess.trim().toLowerCase();
+
+  if (mode === 'daily') {
+    url = `${baseUrl}/daily?guess=${encodeURIComponent(cleanGuess)}&size=${size}`;
+  } else if (mode === 'random') {
+    const seedParam = seed ? `&seed=${encodeURIComponent(seed)}` : '';
+    url = `${baseUrl}/random?guess=${encodeURIComponent(cleanGuess)}&size=${size}${seedParam}`;
+  } else if (mode === 'word' || mode === 'selected') {
+    const targetWord = word.trim().toLowerCase();
+    url = `${baseUrl}/word/${encodeURIComponent(targetWord)}?guess=${encodeURIComponent(cleanGuess)}`;
+  } else {
+    throw new Error(`Unsupported mode: ${mode}`);
+  }
+
+  const response = await fetch(url);
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.detail || `Analysis failed with status: ${response.status}`);
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.detail || `Evaluation API returned error (${response.status})`);
   }
 
   return response.json();
 }
 
 /**
- * Resolve Wordle puzzle using automated solver API
- * @param {Object} params
- * @param {'daily'|'random'|'word'} params.mode
- * @param {number} [params.size=5]
- * @param {string} [params.word]
- * @param {string} [params.seed]
- * @param {string} [params.startingWord]
+ * Resolve Wordle puzzle using backend batch solver API (Legacy & fallback support)
  */
 export async function resolveWordle({ mode = 'daily', size = 5, word = '', seed = '', startingWord = '' } = {}) {
   const params = new URLSearchParams();
@@ -105,4 +116,3 @@ export async function resolveWordle({ mode = 'daily', size = 5, word = '', seed 
 
   return response.json();
 }
-

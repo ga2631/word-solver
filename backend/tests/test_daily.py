@@ -94,6 +94,7 @@ def test_test_flag_shows_daily_word_in_headers():
 
     # 2. Enabled test flag -> Header present
     settings.TEST_MODE = True
+    DailyWordStore.set_word(word="crane", size=5)
     res_enabled = client.get("/api/v1/daily?guess=crane&size=5")
     assert res_enabled.status_code == 200
     assert "X-Daily-Word" in res_enabled.headers
