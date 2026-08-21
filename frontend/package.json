@@ -1,5 +1,5 @@
 {
-  "name": "generate-word-frontend",
+  "name": "word-solver-frontend",
   "private": true,
   "version": "0.1.0",
   "type": "module",

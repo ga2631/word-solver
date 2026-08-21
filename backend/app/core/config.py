@@ -5,7 +5,7 @@ import json
 
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "Generate Word API"
+    PROJECT_NAME: str = "Word Solver API"
     API_V1_STR: str = "/api/v1"
     PORT: int = 8000
     HOST: str = "0.0.0.0"

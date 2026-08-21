@@ -1,4 +1,4 @@
-# Generate Word • Full-Stack Web Application
+# Word Solver • Full-Stack Web Application
 
 A modern, production-ready full-stack application built with **Docker**, **Python (FastAPI)** on the backend, and **ReactJS (Vite)** on the frontend.
 
@@ -7,7 +7,7 @@ A modern, production-ready full-stack application built with **Docker**, **Pytho
 ## 🏛️ Project Architecture
 
 ```
-generate-word/
+word-solver/
 ├── backend/                  # Python FastAPI Microservice
 │   ├── app/
 │   │   ├── api/              # API router & v1 versioned endpoints
@@ -75,22 +75,26 @@ generate-word/
 The easiest way to run the full stack is using Docker Compose:
 
 ### 1. Clone & Configure Environment
+
 ```bash
 cp .env.example .env
 ```
 
 ### 2. Build and Start All Containers
+
 ```bash
 docker compose up --build
 ```
 
 ### 3. Access Services
+
 - **Frontend App**: [http://localhost:3000](http://localhost:3000)
 - **Backend API**: [http://localhost:8000](http://localhost:8000)
 - **Interactive Swagger Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
 - **ReDoc Documentation**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 To stop the containers:
+
 ```bash
 docker compose down
 ```
@@ -145,14 +149,14 @@ docker compose down
 
 ## 📡 API Endpoints
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/` | Root API greeting & route directory |
-| `GET` | `/api/v1/health` | Service health status |
-| `GET` | `/api/v1/daily` | Check guess against daily puzzle word (`?guess=...&size=5`) |
-| `GET` | `/api/v1/random` | Check guess against random puzzle word (`?guess=...&size=5&seed=...`) |
-| `GET` | `/api/v1/word/{word}` | Check guess against target word (`?guess=...`) |
-| `GET` | `/api/v1/resolve` | Automatically solve Wordle puzzle step-by-step (`?mode=daily&size=5`) |
+| Method | Endpoint              | Description                                                           |
+| ------ | --------------------- | --------------------------------------------------------------------- |
+| `GET`  | `/`                   | Root API greeting & route directory                                   |
+| `GET`  | `/api/v1/health`      | Service health status                                                 |
+| `GET`  | `/api/v1/daily`       | Check guess against daily puzzle word (`?guess=...&size=5`)           |
+| `GET`  | `/api/v1/random`      | Check guess against random puzzle word (`?guess=...&size=5&seed=...`) |
+| `GET`  | `/api/v1/word/{word}` | Check guess against target word (`?guess=...`)                        |
+| `GET`  | `/api/v1/resolve`     | Automatically solve Wordle puzzle step-by-step (`?mode=daily&size=5`) |
 
 ---
 
