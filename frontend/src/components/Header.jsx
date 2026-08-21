@@ -9,8 +9,7 @@ export function Header({ isHealthy }) {
           <div className="brand-icon">
             <Sparkles size={20} />
           </div>
-          <span className="brand-title">WordCraft</span>
-          <span className="brand-subtitle">AI Solver</span>
+          <span className="brand-title">Word Solver</span>
         </div>
 
         <div className="header-actions">

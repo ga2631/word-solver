@@ -375,11 +375,6 @@ export function WordleVisualizer() {
               <span>Votee Dev Live</span>
             </button>
           </div>
-          <p className="field-hint">
-            {useRemoteApi
-              ? 'Đang gửi request trực tiếp đến API votee.dev.'
-              : 'Đang chạy với bộ kiểm thử local độc lập, siêu tốc.'}
-          </p>
         </div>
 
         {/* Mode Selector */}
@@ -470,9 +465,6 @@ export function WordleVisualizer() {
           </div>
           <div className="strategic-body">
             <span className="strategic-word">{strategicStartingWord.toUpperCase()}</span>
-            <span className="strategic-desc">
-              Tối ưu Information Gain cho từ {wordLength} ký tự
-            </span>
           </div>
         </div>
 
