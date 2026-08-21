@@ -781,7 +781,14 @@ export function WordleVisualizer() {
 
                   return (
                     <div key={`bar-${idx}`} className="bar-column">
-                      <span className="bar-count-label">
+                      <span
+                        className="bar-count-label"
+                        title={
+                          count === 1 && s.results?.every((r) => r.result === 'correct')
+                            ? '1 (SOLVED)'
+                            : `${count}`
+                        }
+                      >
                         {count === 1 && s.results?.every((r) => r.result === 'correct')
                           ? '1 (SOLVED)'
                           : count}
