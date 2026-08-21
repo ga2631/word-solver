@@ -31,7 +31,7 @@ async def guess_word(
         )
 
     # When test mode is enabled, expose target word in response headers
-    if settings.TEST_MODE or settings.SHOW_DAILY_WORD:
+    if settings.TEST_MODE:
         response.headers["X-Target-Word"] = clean_target
 
     return WordleService.evaluate_guess(target=clean_target, guess=clean_guess)

@@ -10,10 +10,8 @@ client = TestClient(app)
 @pytest.fixture(autouse=True)
 def reset_settings():
     original_test_mode = settings.TEST_MODE
-    original_show_daily = settings.SHOW_DAILY_WORD
     yield
     settings.TEST_MODE = original_test_mode
-    settings.SHOW_DAILY_WORD = original_show_daily
 
 
 def test_random_word_success_default_size():
@@ -64,7 +62,6 @@ def test_random_word_with_seed_deterministic():
 def test_random_word_test_mode_header():
     # 1. TEST_MODE = False
     settings.TEST_MODE = False
-    settings.SHOW_DAILY_WORD = False
     res_disabled = client.get("/api/v1/random?guess=crane&size=5")
     assert res_disabled.status_code == 200
     assert "X-Random-Word" not in res_disabled.headers

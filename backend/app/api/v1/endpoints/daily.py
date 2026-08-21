@@ -39,7 +39,7 @@ async def guess_daily(
         )
 
     # When test flag is enabled, expose daily target word via response headers
-    if settings.SHOW_DAILY_WORD or settings.TEST_MODE:
+    if settings.TEST_MODE:
         response.headers["X-Daily-Word"] = target_word
         response.headers["X-Target-Word"] = target_word
 

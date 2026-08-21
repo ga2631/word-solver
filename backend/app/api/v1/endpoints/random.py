@@ -40,7 +40,7 @@ async def guess_random(
         )
 
     # When test mode is enabled, expose target word in response headers
-    if settings.TEST_MODE or settings.SHOW_DAILY_WORD:
+    if settings.TEST_MODE:
         response.headers["X-Random-Word"] = target_word
         response.headers["X-Target-Word"] = target_word
 

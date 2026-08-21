@@ -12,7 +12,6 @@ class Settings(BaseSettings):
     DEBUG: bool = True
 
     # Test / Debug flags
-    SHOW_DAILY_WORD: bool = False
     TEST_MODE: bool = False
 
     # Solver / Resolver configuration

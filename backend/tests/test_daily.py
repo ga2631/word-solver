@@ -13,11 +13,9 @@ client = TestClient(app)
 @pytest.fixture(autouse=True)
 def reset_daily_store():
     """Ensure clean store state and default settings before each test."""
-    original_show_daily = settings.SHOW_DAILY_WORD
     original_test_mode = settings.TEST_MODE
     DailyWordStore.load_store()
     yield
-    settings.SHOW_DAILY_WORD = original_show_daily
     settings.TEST_MODE = original_test_mode
     DailyWordStore.load_store()
 
@@ -89,14 +87,12 @@ def test_daily_store_custom_dates():
 
 def test_test_flag_shows_daily_word_in_headers():
     # 1. Disabled test flag -> No header
-    settings.SHOW_DAILY_WORD = False
     settings.TEST_MODE = False
     res_disabled = client.get("/api/v1/daily?guess=crane&size=5")
     assert res_disabled.status_code == 200
     assert "X-Daily-Word" not in res_disabled.headers
 
     # 2. Enabled test flag -> Header present
-    settings.SHOW_DAILY_WORD = True
     res_enabled = client.get("/api/v1/daily?guess=crane&size=5")
     assert res_enabled.status_code == 200
     assert "X-Daily-Word" in res_enabled.headers
