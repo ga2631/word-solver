@@ -6,6 +6,11 @@ from app.schemas.word import (
     WordAnalyzeRequest,
     WordAnalyzeResponse,
 )
+from app.schemas.wordle import (
+    ResultKind,
+    GuessResult,
+    DailyWordInfo,
+)
 
 __all__ = [
     "HealthCheck",
@@ -14,4 +19,7 @@ __all__ = [
     "GeneratedWord",
     "WordAnalyzeRequest",
     "WordAnalyzeResponse",
+    "ResultKind",
+    "GuessResult",
+    "DailyWordInfo",
 ]

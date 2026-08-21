@@ -11,6 +11,10 @@ class Settings(BaseSettings):
     HOST: str = "0.0.0.0"
     DEBUG: bool = True
 
+    # Test / Debug flags
+    SHOW_DAILY_WORD: bool = False
+    TEST_MODE: bool = False
+
     # CORS configuration
     CORS_ORIGINS: Union[List[str], str] = [
         "http://localhost:3000",

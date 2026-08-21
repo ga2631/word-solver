@@ -1,12 +1,12 @@
 from typing import List, Optional
-from fastapi import APIRouter, Query, HTTPException, status
+from fastapi import APIRouter, HTTPException, Query, status
 from app.schemas.word import (
-    WordGenerateRequest,
-    WordGenerateResponse,
     WordAnalyzeRequest,
     WordAnalyzeResponse,
+    WordGenerateRequest,
+    WordGenerateResponse,
 )
-from app.services.word_service import WordService, WORD_DICTIONARY
+from app.services.word_service import WORD_DICTIONARY, WordService
 
 router = APIRouter()
 
