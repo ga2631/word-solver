@@ -15,9 +15,3 @@ class GuessResult(BaseModel):
         ...,
         description="Status of character in the word ('absent', 'correct', 'present')",
     )
-
-
-class DailyWordInfo(BaseModel):
-    date: str = Field(..., description="Date of the daily puzzle (YYYY-MM-DD)")
-    size: int = Field(..., description="Word length")
-    word: str = Field(..., description="The secret daily word")

@@ -103,23 +103,6 @@ def test_test_flag_shows_daily_word_in_headers():
     assert res_enabled.headers["X-Daily-Word"] == "crane"
 
 
-def test_test_flag_daily_word_endpoint():
-    # 1. Disabled test flag -> 403 Forbidden
-    settings.SHOW_DAILY_WORD = False
-    settings.TEST_MODE = False
-    res_disabled = client.get("/api/v1/daily/word?size=5")
-    assert res_disabled.status_code == 403
-
-    # 2. Enabled test flag -> 200 OK with word info
-    settings.SHOW_DAILY_WORD = True
-    res_enabled = client.get("/api/v1/daily/word?size=5")
-    assert res_enabled.status_code == 200
-    data = res_enabled.json()
-    assert data["word"] == "crane"
-    assert data["size"] == 5
-    assert "date" in data
-
-
 def test_wordle_evaluation_exact_match():
     results = WordleService.evaluate_guess(target="apple", guess="apple")
     assert len(results) == 5

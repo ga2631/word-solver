@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, HTTPException, Query, Response, status
 from app.core.config import settings
-from app.schemas.wordle import DailyWordInfo, GuessResult
+from app.schemas.wordle import GuessResult
 from app.services.wordle_service import WordleService
 
 router = APIRouter()

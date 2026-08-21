@@ -13,19 +13,29 @@ generate-word/
 │   │   ├── api/              # API router & v1 versioned endpoints
 │   │   │   └── v1/
 │   │   │       ├── endpoints/
+│   │   │       │   ├── daily.py
 │   │   │       │   ├── health.py
-│   │   │       │   └── words.py
+│   │   │       │   ├── random.py
+│   │   │       │   └── word.py
 │   │   │       └── router.py
 │   │   ├── core/             # Configuration & Pydantic settings
 │   │   │   └── config.py
 │   │   ├── schemas/          # Pydantic data validation models
-│   │   │   └── word.py
+│   │   │   ├── word.py
+│   │   │   └── wordle.py
 │   │   ├── services/         # Business logic layer
-│   │   │   └── word_service.py
+│   │   │   ├── daily_store.py
+│   │   │   └── wordle_service.py
+│   │   ├── static/           # Dictionary assets
 │   │   └── main.py           # FastAPI application entrypoint
+│   ├── scripts/              # Data processing utilities
+│   │   └── process_words.py
 │   ├── tests/                # Automated pytest test suites
-│   │   ├── __init__.py
-│   │   └── test_main.py
+│   │   ├── test_daily.py
+│   │   ├── test_main.py
+│   │   ├── test_process_words.py
+│   │   ├── test_random.py
+│   │   └── test_word.py
 │   ├── .dockerignore
 │   ├── .env.example
 │   ├── Dockerfile            # Python 3.11 slim container
@@ -135,10 +145,9 @@ docker compose down
 |---|---|---|
 | `GET` | `/` | Root API greeting & route directory |
 | `GET` | `/api/v1/health` | Service health status |
-| `GET` | `/api/v1/words/categories` | List available categories |
-| `GET` | `/api/v1/words/generate` | Generate words via query parameters |
-| `POST` | `/api/v1/words/generate` | Generate words via JSON request body |
-| `POST` | `/api/v1/words/analyze` | Analyze length, vowels, palindrome, char frequency |
+| `GET` | `/api/v1/daily` | Check guess against daily puzzle word (`?guess=...&size=5`) |
+| `GET` | `/api/v1/random` | Check guess against random puzzle word (`?guess=...&size=5&seed=...`) |
+| `GET` | `/api/v1/word/{word}` | Check guess against target word (`?guess=...`) |
 
 ---
 
