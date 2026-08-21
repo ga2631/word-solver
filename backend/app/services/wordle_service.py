@@ -109,6 +109,27 @@ class WordleService:
         return rng.choice(words)
 
     @classmethod
+    def get_random_word(
+        cls,
+        size: int = 5,
+        seed: Optional[Union[str, int]] = None,
+    ) -> str:
+        """
+        Get a random word of a specific length.
+        If a seed is provided, selection is deterministic based on that seed.
+        If seed is not provided, selection is randomized.
+        """
+        words = cls.get_words_by_length(size)
+        if not words:
+            raise ValueError(f"No dictionary words available for length {size}")
+
+        if seed is not None and str(seed).strip() != "":
+            rng = random.Random(str(seed).strip())
+            return rng.choice(words)
+
+        return random.choice(words)
+
+    @classmethod
     def evaluate_guess(cls, target: str, guess: str) -> List[GuessResult]:
         """
         Evaluate a guess against the target word according to standard Wordle rules.

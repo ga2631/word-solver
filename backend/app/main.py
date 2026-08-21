@@ -17,7 +17,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["X-Daily-Word", "X-Target-Word", "*"],
+    expose_headers=["X-Daily-Word", "X-Random-Word", "X-Target-Word", "*"],
 )
 
 # Include API v1 router
